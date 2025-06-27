@@ -1,0 +1,37 @@
+name: Monthly Testimonial Report
+
+# Runs on the 1st of every month at 9 AM UTC
+on:
+  schedule:
+    - cron: '0 9 1 * *'
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  send-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Send Monthly Report
+      run: |
+        curl -X GET "${{ secrets.APP_URL }}/api/cron/monthly-report" \
+          -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+          -H "Content-Type: application/json" \
+          --fail \
+          --show-error
+      
+    - name: Log Result
+      if: always()
+      run: |
+        if [ $? -eq 0 ]; then
+          echo "✅ Monthly report sent successfully"
+        else
+          echo "❌ Failed to send monthly report"
+          exit 1
+        fi
+
+# To set this up:
+# 1. Go to your GitHub repo → Settings → Secrets and variables → Actions
+# 2. Add these secrets:
+#    - APP_URL: Your Netlify URL (e.g., https://your-site.netlify.app)
+#    - CRON_SECRET: Same value as in your Netlify environment variables

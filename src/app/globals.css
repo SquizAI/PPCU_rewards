@@ -1,26 +1,115 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* PPCU Brand Colors */
+    --ppcu-coral: 15 92% 81%; /* #FAA682 */
+    --ppcu-red: 3 73% 63%; /* #E56157 */
+    --ppcu-green: 162 24% 70%; /* #9EC9BA */
+    --ppcu-cream: 39 41% 94%; /* #F5F0E3 */
+    --ppcu-dark: 0 0% 20%; /* #333333 */
+    
+    /* Application Colors */
+    --background: 39 41% 94%; /* PPCU Cream */
+    --foreground: 0 0% 20%; /* PPCU Dark */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 15 92% 81%; /* PPCU Coral */
+    --primary-foreground: 0 0% 20%;
+    --secondary: 162 24% 70%; /* PPCU Green */
+    --secondary-foreground: 0 0% 20%;
+    --muted: 39 20% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 3 73% 63%; /* PPCU Red */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 3 73% 63%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 39 20% 85%;
+    --input: 39 20% 85%;
+    --ring: 15 92% 81%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 263.4 70% 50.4%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), system-ui, sans-serif;
+    @apply font-semibold;
+  }
+  
+  .font-body {
+    font-family: var(--font-body), system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-[#FAA682] to-[#E56157];
+  }
+  
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-[#9EC9BA] to-[#FAA682];
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#E56157] to-[#FAA682];
+  }
+  
+  .shimmer {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent;
+  }
+  
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+  
+  .dark .glass {
+    @apply bg-gray-900/80 border-gray-800/50;
+  }
+  
+  .glow {
+    @apply relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-gradient-to-r before:from-[#FAA682]/20 before:to-[#E56157]/20 before:blur-xl before:-z-10;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
 }
