@@ -1,100 +1,90 @@
-import { TestimonialForm } from "@/components/testimonial-form"
-import { Heart, Star, Shield } from "lucide-react"
-import Image from "next/image"
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Background decoration with PPCU colors */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FAA682] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#9EC9BA] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#E56157] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob animation-delay-4000" />
-      </div>
-
-      <div className="relative">
-        {/* Header */}
-        <header className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center">
-            <Image
-              src="/ppcu-logo.png"
-              alt="Postpartum Care USA"
-              width={250}
-              height={80}
-              priority
-              className="h-auto"
-            />
-          </div>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-4 py-12">
+        <header className="flex justify-center mb-12">
+          <Image 
+            src="/ppcu-logo.png" 
+            alt="Postpartum Care USA Logo" 
+            width={200} 
+            height={80}
+            priority
+          />
         </header>
-
-        {/* Hero Section */}
-        <section className="container mx-auto px-4 py-12 text-center max-w-4xl">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gradient">
-            Your Journey Matters to Us
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Help other mothers by sharing your postpartum care experience. 
-            Your story can make a difference in someone else's journey.
-          </p>
-          
-          {/* Trust badges */}
-          <div className="flex flex-wrap justify-center gap-8 mb-12">
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Shield className="h-5 w-5 text-[#FAA682]" />
-              <span className="text-sm font-medium">HIPAA Compliant</span>
+        
+        <main>
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl font-bold text-blue-900 mb-6">
+              Share Your Postpartum Care Experience
+            </h1>
+            
+            <p className="text-xl text-gray-700 mb-8">
+              Your feedback helps us improve care for new mothers. 
+              Share your experience and receive a gift card as our thank you.
+            </p>
+            
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-12">
+              <h2 className="text-2xl font-semibold text-blue-800 mb-4">
+                Ready to Share Your Story?
+              </h2>
+              
+              <p className="mb-6">
+                Click below to start your testimonial. It only takes a few minutes!
+              </p>
+              
+              <Link 
+                href="/testimonial" 
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg px-6 py-3 transition-colors"
+              >
+                Start Your Testimonial
+              </Link>
             </div>
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Star className="h-5 w-5 text-[#FAA682] fill-current" />
-              <span className="text-sm font-medium">4.9/5 Patient Rating</span>
-            </div>
-            <div className="flex items-center space-x-2 text-muted-foreground">
-              <Heart className="h-5 w-5 text-[#FAA682] fill-current" />
-              <span className="text-sm font-medium">1000+ Mothers Helped</span>
+            
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
+              <div className="bg-white p-6 rounded-lg shadow">
+                <Image 
+                  src="/file.svg" 
+                  alt="Simple Process" 
+                  width={48} 
+                  height={48} 
+                  className="mx-auto mb-4"
+                />
+                <h3 className="font-medium text-lg mb-2">Simple Process</h3>
+                <p className="text-gray-600">Quick and easy testimonial submission</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow">
+                <Image 
+                  src="/window.svg" 
+                  alt="Video Option" 
+                  width={48} 
+                  height={48} 
+                  className="mx-auto mb-4"
+                />
+                <h3 className="font-medium text-lg mb-2">Video Option</h3>
+                <p className="text-gray-600">Share your story in written or video format</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow">
+                <Image 
+                  src="/globe.svg" 
+                  alt="Make an Impact" 
+                  width={48} 
+                  height={48} 
+                  className="mx-auto mb-4"
+                />
+                <h3 className="font-medium text-lg mb-2">Make an Impact</h3>
+                <p className="text-gray-600">Help improve care for future mothers</p>
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* Form Section */}
-        <section className="container mx-auto px-4 pb-20">
-          <TestimonialForm />
-        </section>
-
-        {/* Benefits Section */}
-        <section className="container mx-auto px-4 py-16 max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-primary flex items-center justify-center">
-                <Heart className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Make a Difference</h3>
-              <p className="text-muted-foreground">
-                Your experience helps other mothers navigate their postpartum journey with confidence.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-primary flex items-center justify-center">
-                <Star className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Get Rewarded</h3>
-              <p className="text-muted-foreground">
-                Receive a $50 gift card as our thank you for sharing a video testimonial.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-primary flex items-center justify-center">
-                <Shield className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Safe & Secure</h3>
-              <p className="text-muted-foreground">
-                Your information is protected with HIPAA-compliant security measures.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Postpartum Care USA. All rights reserved.</p>
+        </main>
+        
+        <footer className="mt-16 text-center text-gray-500">
+          <p>© {new Date().getFullYear()} Postpartum Care USA. All rights reserved.</p>
         </footer>
       </div>
     </div>
