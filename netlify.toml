@@ -1,6 +1,6 @@
 [build]
-  # No build command needed for static HTML
-  publish = "public"
+  command = "npm run build"
+  publish = ".next"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
