@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import { giftogram } from "@/lib/giftogram"
 import { googleSheets } from "@/lib/google-sheets"
 import { emailService } from "@/lib/email"
-import { testimonialService } from "@/lib/supabase"
 import crypto from "crypto"
 
 // Verify webhook signature from Vocal Video
@@ -77,22 +76,8 @@ export async function POST(request: NextRequest) {
       message: "Thank you for sharing your video testimonial with Postpartum Care USA!"
     })
     
-    // Update in Supabase
+    // Update Google Sheets with video data
     if (formId) {
-      try {
-        await testimonialService.update(formId, {
-          video_submitted: true,
-          video_url: videoUrl,
-          video_transcript: transcript,
-          gift_card_sent: giftCardResponse.success,
-          gift_card_id: giftCardResponse.giftId,
-          gift_card_amount: 50
-        })
-      } catch (dbError) {
-        console.error("Supabase update error:", dbError)
-      }
-      
-      // Also update Google Sheets (backup)
       await googleSheets.updateTestimonial(formId, {
         videoSubmitted: true,
         videoUrl,

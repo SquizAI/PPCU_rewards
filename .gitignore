@@ -32,10 +32,24 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.local
+.env.production
+
+# secret files
+*-credentials.json
+*-service-account.json
+NETLIFY_ENV_VARS.txt
+vibecode-*.json
 
 # vercel
 .vercel
 
+# netlify
+.netlify
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local backups
+testimonials-backup/

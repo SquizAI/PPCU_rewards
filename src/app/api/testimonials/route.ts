@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { googleSheets } from "@/lib/google-sheets"
-import { simpleGoogleSheets } from "@/lib/google-sheets-simple"
 import { emailService } from "@/lib/email"
-import { testimonialService } from "@/lib/supabase"
 
 // Initialize Google Sheets on startup
-googleSheets.initializeSheet().catch(console.error)
+googleSheets.initializeSheet().then(() => {
+  console.log('Google Sheets initialized')
+}).catch(console.error)
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,42 +22,27 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Create testimonial record
+    // Create testimonial data
     const testimonialData = {
-      first_name: body.firstName,
-      last_name: body.lastName,
-      email: body.email,
-      phone: body.phone,
-      testimonial: body.testimonial,
-      consent: body.consent,
-      submitted_at: new Date().toISOString(),
-      video_submitted: false,
-      gift_card_sent: false
-    }
-    
-    // Store in Supabase
-    let testimonial
-    try {
-      testimonial = await testimonialService.create(testimonialData)
-    } catch (dbError) {
-      console.error("Supabase error:", dbError)
-      // Fallback: continue without database
-      testimonial = { id: Date.now().toString(), ...testimonialData }
-    }
-    
-    // Save to Google Sheets (optional backup)
-    await googleSheets.addTestimonial({
-      id: testimonial.id,
+      id: `PPCU-${Date.now()}`,
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,
       phone: body.phone,
       testimonial: body.testimonial,
       consent: body.consent,
-      submittedAt: testimonial.submitted_at,
+      submittedAt: new Date().toISOString(),
       videoSubmitted: false,
       giftCardSent: false
-    }).catch(console.error)
+    }
+    
+    // Save to Google Sheets
+    const result = await googleSheets.addTestimonial(testimonialData)
+    
+    if (!result.success) {
+      console.error("Failed to save to Google Sheets:", result.error)
+      // Continue anyway - we don't want to fail the submission
+    }
     
     // Send confirmation email
     await emailService.sendTestimonialConfirmation(
@@ -67,7 +52,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
-      testimonialId: testimonial.id,
+      testimonialId: testimonialData.id,
       message: "Thank you for your testimonial!"
     })
     
@@ -80,37 +65,21 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    // Get testimonials from Supabase
-    const testimonials = await testimonialService.getAll()
-    
-    // Transform data for dashboard compatibility
-    const transformedTestimonials = testimonials.map(t => ({
-      id: t.id,
-      firstName: t.first_name,
-      lastName: t.last_name,
-      email: t.email,
-      phone: t.phone,
-      testimonial: t.testimonial,
-      consent: t.consent,
-      submittedAt: t.submitted_at,
-      videoSubmitted: t.video_submitted,
-      videoUrl: t.video_url,
-      giftCardSent: t.gift_card_sent,
-      giftCardId: t.gift_card_id
-    }))
-    
+    // For now, return empty array since we're using Google Sheets
+    // The dashboard can read directly from the sheet
     return NextResponse.json({
-      testimonials: transformedTestimonials,
-      total: testimonials.length
+      testimonials: [],
+      total: 0,
+      message: "Please view testimonials directly in Google Sheets"
     })
   } catch (error) {
     console.error("Error fetching testimonials:", error)
-    // Fallback to empty array
     return NextResponse.json({
       testimonials: [],
-      total: 0
+      total: 0,
+      error: "Failed to fetch testimonials"
     })
   }
 }
